@@ -1,0 +1,22 @@
+--- implementation.cpp	2018-11-28 09:13:42.000000000 +0100
++++ implementation.cpp.temp	2019-09-27 11:30:45.766707260 +0200
+@@ -145,6 +145,7 @@
+         PubEntities e(partitionName.c_str());
+ 
+         /** Fill the sample payload with data */
++        payloadSize -= 8;  // Subtract the length of the sequence number and that of the filled length
+         ThroughputModule::DataType sample;
+         sample.count = 0;
+         sample.payload.length(payloadSize);
+@@ -376,8 +377,10 @@
+                     unsigned long long deltaReceived = received - prevReceived;
+                     double deltaTime = (double)exampleTimevalToMicroseconds(time - prevTime) / US_IN_ONE_SEC;
+ 
++                    // Add a +8 to the payloadSize, so it displays the total
++                    // length of the message and not just the sequence length
+                     std::cout << std::fixed << std::setprecision(2)
+-                                << "Payload size: " << payloadSize << " | "
++                                << "Payload size: " << payloadSize + 8 << " | "
+                                 << "Total received: " << samplesReceived(count, startCount) << " samples, "
+                                 << received << " bytes | "
+                                 << "Out of order: " << outOfOrder << " samples | "

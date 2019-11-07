@@ -1,0 +1,19 @@
+--- examples/throughput/publisher.c	2019-09-27 10:50:52.382321182 +0200
++++ examples/throughput/publisher.c.temp	2019-09-27 10:52:18.330886090 +0200
+@@ -64,6 +64,7 @@
+   }
+ 
+   /* Fill the sample payload with data */
++  payloadSize -= 8;  // Subtract the length of the sequence number and that of the filled length
+   sample.count = 0;
+   sample.payload._buffer = dds_alloc (payloadSize);
+   sample.payload._length = payloadSize;
+@@ -148,7 +149,7 @@
+     DDS_FATAL("dds_create_participant: %s\n", dds_strretcode(-participant));
+ 
+   /* Enable write batching */
+-  dds_write_set_batch (true);
++  dds_write_set_batch (false);
+ 
+   /* A topic is created for our sample type on the domain participant. */
+   topic = dds_create_topic (participant, &ThroughputModule_DataType_desc, "Throughput", NULL, NULL);

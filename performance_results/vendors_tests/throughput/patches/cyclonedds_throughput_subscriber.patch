@@ -1,0 +1,15 @@
+--- examples/throughput/subscriber.c	2019-09-27 10:50:52.382321182 +0200
++++ examples/throughput/subscriber.c.temp	2019-09-27 10:59:51.152863337 +0200
+@@ -273,9 +273,11 @@
+ 
+       if (deltaTime >= 1.0 && total_samples != prev_samples)
+       {
++        // Add a +8 to the payloadSize, so it displays the total
++        // length of the message and not just the sequence length
+         printf ("=== [Subscriber] %5.3f Payload size: %lu | Total received: %llu samples, %llu bytes | Out of order: %llu samples "
+                 "Transfer rate: %.2lf samples/s, %.2lf Mbit/s\n",
+-                deltaTime, payloadSize, total_samples, total_bytes, outOfOrder,
++                deltaTime, payloadSize + 8, total_samples, total_bytes, outOfOrder,
+                 (deltaTime != 0.0) ? ((double)(total_samples - prev_samples) / deltaTime) : 0,
+                 (deltaTime != 0.0) ? ((double)((total_bytes - prev_bytes) / BYTES_PER_SEC_TO_MEGABITS_PER_SEC) / deltaTime) : 0);
+         fflush (stdout);
