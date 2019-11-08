@@ -1,0 +1,12 @@
+{
+    "rmw_implementation": ["rmw_fastrtps_cpp", "rmw_cyclonedds_cpp"],
+    "log_directory": ".",
+    "rates": [1000],
+    "topics": ["Array1k", "Array16k", "Array60k", "Array2m"],
+    "reliability": ["best-effort"],
+    "durability": ["volatile"],
+    "keep_last": true,
+    "history_depth": 1000,
+    "max_runtime": 60,
+    "num_subs": [10]
+}
