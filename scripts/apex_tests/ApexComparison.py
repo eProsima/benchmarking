@@ -330,7 +330,14 @@ def file_type(f):
 
 
 def get_logger(file_name=None, print_enable=True):
-    """Get a logger with handlers for file and terminal output."""
+    """
+    Get a logger with handlers for file and terminal output.
+
+    :param file_name: A name for the log file.
+        If None, comparison_<timestamp>.log is used. Defaults: None.
+    :param print_enable: The return logger will also print to stdout.
+    :return: A logger.
+    """
     ts = time.time()
     if file_name is None:
         file_name = 'comparison_{}.log'.format(

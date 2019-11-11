@@ -8,6 +8,7 @@ This directory contains a set of scripts used to run and analyze performance res
 * [apex_compare_tree.py](apex_compare_tree.py) is meant to compare two sets of similar results produced with [apex_run_experiments.py](apex_run_experiments.py).
 * [apex_plot_results.py](apex_plot_results.py) generates comparison plots from two sets of results produced with [apex_run_experiments.py](apex_run_experiments.py).
 * [ApexComparison.py](ApexComparison.py) contains python code used by several of the other scripts.
+* [apex_parse_results.py](apex_parse_results.py) is a parser to transform ApexAI's performance test results to CSV (columns: `latency_min (ms)`, `latency_mean (ms)`, `latency_variance (ms)`, `ru_maxrss`, `cpu_usage (%)`)
 
 ## Run Apex tests
 These steps assume that you have a ROS2 installation from sources, where the [ApexAI's performance test](https://gitlab.com/ApexAI/performance_test/) package is present.
@@ -62,3 +63,8 @@ python3 apex_plot_results.py -r results_dir_1 results_dir_2 results_dir_3 -s lab
 ```
 This will generate one plot for each result type (combination of rate, number of subscribers, reliability, durability, history kind, and history depth). Each plot will have data types in the x axis, and one series for each result set, labeled with its corresponding label.
 
+## Parse results
+You can parse the results into CSV files specifying a directory containing ApexAI performance test raw output files. This will generate CSV files that are stored in the same results directory.
+```bash
+python3 apex_parse_results.py -r rate_1000/subs_10/
+```
