@@ -31,6 +31,7 @@ def validate_configuration(config_file):
         'log_directory': 'string',
         'rates': 'list of integers',
         'topics': 'list of strings',
+        'dds_domain_id': 'integer',
         'reliability': 'list of strings',
         'durability': 'list of strings',
         'keep_last': 'boolean',
@@ -46,6 +47,7 @@ def validate_configuration(config_file):
         assert isinstance(config['log_directory'], str)
         assert_list_of_type(config['rates'], int)
         assert_list_of_type(config['topics'], str)
+        assert isinstance(config['dds_domain_id'], int)
         assert_list_of_type(config['reliability'], str)
         assert_list_of_type(config['durability'], str)
         assert isinstance(config['keep_last'], bool)
@@ -111,8 +113,9 @@ if __name__ == '__main__':
             if not os.path.exists(dir_name):
                 os.makedirs(dir_name)
             # Build the command
-            command = 'RMW_IMPLEMENTATION={} '.format(rmw_implementation)
-            command += 'ros2 run performance_test perf_test'
+            command = 'ROS_DOMAIN_ID={} '.format(config['dds_domain_id'])
+            command += ' RMW_IMPLEMENTATION={}'.format(rmw_implementation)
+            command += ' ros2 run performance_test perf_test'
             command += ' --communication ROS2'
             command += ' --topic {}'.format(combination[0])
             command += ' --rate {}'.format(combination[1])

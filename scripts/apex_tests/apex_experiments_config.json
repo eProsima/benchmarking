@@ -3,6 +3,7 @@
     "log_directory": ".",
     "rates": [1000],
     "topics": ["Array1k", "Array16k", "Array60k", "Array2m"],
+    "dds_domain_id": 173,
     "reliability": ["best-effort"],
     "durability": ["volatile"],
     "keep_last": true,
