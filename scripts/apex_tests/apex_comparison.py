@@ -325,15 +325,55 @@ def log_comparison_result(
     logger.info('---------------------------------------------------')
     logger.info('REFERENCE FILE:   {}'.format(ref_file))
     for entry in analysis:
-        logger.info(
-           '{}: {:.5f}'.format(entry, analysis[entry]['reference'])
-        )
+        if 'reference_max' in analysis[entry]:
+            logger.info(
+                '{}: [{:.5f}; {:.5f}]'.format(
+                    entry,
+                    analysis[entry]['reference'],
+                    analysis[entry]['reference_max']
+                )
+            )
+        elif 'reference_min' in analysis[entry]:
+            logger.info(
+                '{}: [{:.5f}; {:.5f}]'.format(
+                    entry,
+                    analysis[entry]['reference_min'],
+                    analysis[entry]['reference']
+                )
+            )
+        else:
+            logger.info(
+                '{}: {:.5f}'.format(
+                    entry,
+                    analysis[entry]['reference']
+                )
+            )
     logger.info('---------------------------------------------------')
     logger.info('TARGET FILE:      {}'.format(target_file))
     for entry in analysis:
-        logger.info(
-           '{}: {:.5f}'.format(entry, analysis[entry]['target'])
-        )
+        if 'target_max' in analysis[entry]:
+            logger.info(
+                '{}: [{:.5f}; {:.5f}]'.format(
+                    entry,
+                    analysis[entry]['target'],
+                    analysis[entry]['target_max']
+                )
+            )
+        elif 'target_min' in analysis[entry]:
+            logger.info(
+                '{}: [{:.5f}; {:.5f}]'.format(
+                    entry,
+                    analysis[entry]['target_min'],
+                    analysis[entry]['target']
+                )
+            )
+        else:
+            logger.info(
+                '{}: {:.5f}'.format(
+                    entry,
+                    analysis[entry]['target']
+                )
+            )
     logger.info('---------------------------------------------------')
     logger.info('COMPARISON:')
     for entry in analysis:
@@ -367,40 +407,54 @@ def compare_files(
     analysis = {}
 
     # Latency min comparison
-    analysis['latency_min (ms)'] = compare_measurements(
-        reference=min(ref_results['latency_min (ms)']),
-        target=min(target_results['latency_min (ms)']),
+    column = 'latency_min (ms)'
+    analysis[column] = compare_measurements(
+        reference=min(ref_results[column]),
+        target=min(target_results[column]),
         threshold=latency_threshold
     )
+    analysis[column]['reference_max'] = max(ref_results[column])
+    analysis[column]['target_max'] = max(target_results[column])
 
     # Latency mean comparison
-    analysis['latency_mean (ms)'] = compare_measurements(
-        reference=min(ref_results['latency_mean (ms)']),
-        target=min(target_results['latency_mean (ms)']),
+    column = 'latency_mean (ms)'
+    analysis[column] = compare_measurements(
+        reference=min(ref_results[column]),
+        target=min(target_results[column]),
         threshold=latency_threshold
     )
-
+    analysis[column]['reference_max'] = max(ref_results[column])
+    analysis[column]['target_max'] = max(target_results[column])
 
     # Latency max comparison
-    analysis['latency_max (ms)'] = compare_measurements(
-        reference=max(ref_results['latency_max (ms)']),
-        target=max(target_results['latency_max (ms)']),
+    column = 'latency_max (ms)'
+    analysis[column] = compare_measurements(
+        reference=max(ref_results[column]),
+        target=max(target_results[column]),
         threshold=jitter_threshold
     )
+    analysis[column]['reference_min'] = min(ref_results[column])
+    analysis[column]['target_min'] = min(target_results[column])
 
     # Jitter comparison
-    analysis['jitter_max (ms)'] = compare_measurements(
+    column = 'jitter (ms)'
+    analysis[column] = compare_measurements(
         reference=max(calculate_jitter(ref_results['latency_max (ms)'])),
         target=max(calculate_jitter(target_results['latency_max (ms)'])),
         threshold=jitter_threshold
     )
+    analysis[column]['reference_min'] = min(calculate_jitter(ref_results['latency_max (ms)']))
+    analysis[column]['target_min'] = min(calculate_jitter(target_results['latency_max (ms)']))
 
     # RSS comparison
-    analysis['ru_maxrss (KB)'] = compare_measurements(
+    column = 'rss (KB)'
+    analysis[column] = compare_measurements(
         reference=max(ref_results['ru_maxrss']),
         target=max(target_results['ru_maxrss']),
         threshold=rss_threshold
     )
+    analysis[column]['reference_min'] = min(ref_results['ru_maxrss'])
+    analysis[column]['target_min'] = min(target_results['ru_maxrss'])
 
     # Get the overall result
     comparison_result = all(
