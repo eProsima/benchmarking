@@ -2,13 +2,13 @@
 This directory contains a set of scripts used to run and analyze performance results obtained with [ApexAI's performance test framework](https://gitlab.com/ApexAI/performance_test/).
 
 ## Scripts brief description
-* [apex_run_experiments.py](apex_run_experiments.py) takes a configuration file in the form of [apex_experiments_config.json](apex_experiments_config.json) and runs all the possible combinations of `perf_test`.
-* [apex_experiments_config.json](apex_experiments_config.json) is full example a configuration file for [apex_run_experiments.py](apex_run_experiments.py).
-* [apex_compare.py](apex_compare.py) is meant to compare result files as output by ApexAI's `perf_test`.
-* [apex_compare_tree.py](apex_compare_tree.py) is meant to compare two sets of similar results produced with [apex_run_experiments.py](apex_run_experiments.py).
-* [apex_plot_results.py](apex_plot_results.py) generates comparison plots from two sets of results produced with [apex_run_experiments.py](apex_run_experiments.py).
+* [run_apex_experiments.py](run_apex_experiments.py) takes a configuration file in the form of [apex_experiments_config.json](apex_experiments_config.json) and runs all the possible combinations of `perf_test`.
+* [apex_experiments_config.json](apex_experiments_config.json) is full example a configuration file for [run_apex_experiments.py](run_apex_experiments.py).
+* [compare_apex_files.py](compare_apex_files.py) is meant to compare result files as output by ApexAI's `perf_test`.
+* [compare_apex_tree.py](compare_apex_tree.py) is meant to compare two sets of similar results produced with [run_apex_experiments.py](run_apex_experiments.py).
+* [apex_plot_results.py](apex_plot_results.py) generates comparison plots from two sets of results produced with [run_apex_experiments.py](run_apex_experiments.py).
 * [apex_comparison.py](apex_comparison.py) contains python code used by several of the other scripts.
-* [apex_parse_results.py](apex_parse_results.py) is a parser to transform ApexAI's performance test results to CSV (columns: `latency_min (ms)`, `latency_mean (ms)`, `latency_variance (ms)`, `ru_maxrss`, `cpu_usage (%)`)
+* [parse_apex_results.py](parse_apex_results.py) is a parser to transform ApexAI's performance test results to CSV (columns: `latency_min (ms)`, `latency_mean (ms)`, `latency_variance (ms)`, `ru_maxrss`, `cpu_usage (%)`)
 
 ## Run Apex tests
 These steps assume that you have a ROS2 installation from sources, where the [ApexAI's performance test](https://gitlab.com/ApexAI/performance_test/) package is present.
@@ -36,7 +36,7 @@ These steps assume that you have a ROS2 installation from sources, where the [Ap
 1. Configure the experiments to be performed in [apex_experiments_config.json](apex_experiments_config.json)
 1. Run the experiments
     ```bash
-    python3 apex_run_experiments.py -c apex_experiments_config.json
+    python3 run_apex_experiments.py -c apex_experiments_config.json
     ```
     This, apart from running and logging the experiments, will generate a log of all the commands run. and example would be:
     ```
@@ -48,16 +48,16 @@ These steps assume that you have a ROS2 installation from sources, where the [Ap
 ## Compare Apex results
 One you have two sets of similar experiments (like two executions of the above example), you can compare them with:
 ```bash
-python3 apex_compare_tree.py /home/test/ros2_master/apex_run/rmw_fastrtps_cpp_1/ /home/test/ros2_master/apex_run/rmw_fastrtps_cpp_2/ -R 1000 -S 10 -o comparison.out
+python3 compare_apex_tree.py /home/test/ros2_master/apex_run/rmw_fastrtps_cpp_1/ /home/test/ros2_master/apex_run/rmw_fastrtps_cpp_2/ -R 1000 -S 10 -o comparison.out
 ```
 
 You can also compare 2 different result files with:
 ```bash
-python3 apex_compare.py file_1 file_2 -o comparison.out
+python3 compare_apex_files.py file_1 file_2 -o comparison.out
 ```
 
 ## Plot results
-You can plot an arbitrary number of sets of results (as output by [apex_run_experiments.py](apex_run_experiments.py)).
+You can plot an arbitrary number of sets of results (as output by [run_apex_experiments.py](run_apex_experiments.py)).
 ```bash
 python3 apex_plot_results.py -r results_dir_1 results_dir_2 results_dir_3 -s label_1 label_2 label_3 -p plots_dir
 ```
@@ -66,5 +66,5 @@ This will generate one plot for each result type (combination of rate, number of
 ## Parse results
 You can parse the results into CSV files specifying a directory containing ApexAI performance test raw output files. This will generate CSV files that are stored in the same results directory.
 ```bash
-python3 apex_parse_results.py -r rate_1000/subs_10/
+python3 parse_apex_results.py -r rate_1000/subs_10/
 ```
