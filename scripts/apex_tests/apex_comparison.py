@@ -278,7 +278,11 @@ def calculate_jitter(latencies):
     return jitter
 
 
-def compare_measurements(reference, target, threshold):
+def compare_measurements(
+        reference,
+        target,
+        threshold,
+    ):
     """."""
     result = {}
     result['reference'] = reference
@@ -363,39 +367,39 @@ def compare_files(
     analysis = {}
 
     # Latency min comparison
-    ref_latency_min = min(ref_results['latency_min (ms)'])
-    target_latency_min = min(target_results['latency_min (ms)'])
     analysis['latency_min (ms)'] = compare_measurements(
-        ref_latency_min,
-        target_latency_min,
-        latency_threshold
+        reference=min(ref_results['latency_min (ms)']),
+        target=min(target_results['latency_min (ms)']),
+        threshold=latency_threshold
     )
 
     # Latency mean comparison
-    ref_latency_mean = min(ref_results['latency_mean (ms)'])
-    target_latency_mean = min(target_results['latency_mean (ms)'])
     analysis['latency_mean (ms)'] = compare_measurements(
-        ref_latency_mean,
-        target_latency_mean,
-        latency_threshold
+        reference=min(ref_results['latency_mean (ms)']),
+        target=min(target_results['latency_mean (ms)']),
+        threshold=latency_threshold
+    )
+
+
+    # Latency max comparison
+    analysis['latency_max (ms)'] = compare_measurements(
+        reference=max(ref_results['latency_max (ms)']),
+        target=max(target_results['latency_max (ms)']),
+        threshold=jitter_threshold
     )
 
     # Jitter comparison
-    max_ref_jitter = max(calculate_jitter(ref_results['latency_max (ms)']))
-    max_target_jitter = max(calculate_jitter(target_results['latency_max (ms)']))
-    analysis['latency_max (ms)'] = compare_measurements(
-        max_ref_jitter,
-        max_target_jitter,
-        jitter_threshold
+    analysis['jitter_max (ms)'] = compare_measurements(
+        reference=max(calculate_jitter(ref_results['latency_max (ms)'])),
+        target=max(calculate_jitter(target_results['latency_max (ms)'])),
+        threshold=jitter_threshold
     )
 
     # RSS comparison
-    ref_max_rss = max(ref_results['ru_maxrss'])
-    target_max_rss = max(target_results['ru_maxrss'])
     analysis['ru_maxrss (KB)'] = compare_measurements(
-        ref_max_rss,
-        target_max_rss,
-        rss_threshold
+        reference=max(ref_results['ru_maxrss']),
+        target=max(target_results['ru_maxrss']),
+        threshold=rss_threshold
     )
 
     # Get the overall result
