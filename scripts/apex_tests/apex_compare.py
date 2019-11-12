@@ -1,4 +1,4 @@
-# Copyright 2017 Apex.AI, Inc.
+# Copyright 2019 Proyectos y Sistemas de Mantenimiento SL (eProsima).
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 import argparse
 import sys
 
-import ApexComparison
+import apex_comparison as ac
 
 
 if __name__ == '__main__':
@@ -26,25 +26,25 @@ if __name__ == '__main__':
     )
     parser.add_argument(
         'reference_file',
-        type=ApexComparison.file_type,
+        type=ac.file_type,
         help='Reference directory for comparison'
     )
     parser.add_argument(
         'target_file',
-        type=ApexComparison.file_type,
+        type=ac.file_type,
         help='Target directory for comparison'
     )
     parser.add_argument(
         '-l',
         '--latency_threshold',
-        type=ApexComparison.percentage_float,
+        type=ac.percentage_float,
         help='A tolerance percentage over the reference latency',
         required=False,
         default=5
     )
     parser.add_argument(
         '-r', '--rss_threshold',
-        type=ApexComparison.percentage_float,
+        type=ac.percentage_float,
         help='A tolerance percentage over the reference RSS',
         required=False,
         default=5
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-j',
         '--jitter_threshold',
-        type=ApexComparison.percentage_float,
+        type=ac.percentage_float,
         help='A tolerance percentage over the reference jitter',
         required=False,
         default=5
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-p',
         '--print_results',
-        type=ApexComparison.bool_type,
+        type=ac.bool_type,
         help='Enable result printing and logging',
         required=False,
         default=True
@@ -85,35 +85,35 @@ if __name__ == '__main__':
         output_file = None
 
     # Get logger configured logger
-    logger = ApexComparison.get_logger(output_file, print_results)
+    logger = ac.get_logger(output_file, print_results)
 
-    # Log files column names
-    columns_ids = ApexComparison.get_column_ids()
-    # Columns we are interested in
-    columns_of_interest = ['latency_min (ms)', 'ru_maxrss', 'latency_max (ms)']
-    if not all(elem in columns_ids for elem in columns_of_interest):
-        logger.error('The columns of interest do not exist in the log files')
-        exit(1)
-
-    # Begin comparisons
+    # Begin comparison
     exit_value = 0  # An exit value of 0 means signifies
+
     try:
-        # Create comparison instance
-        comparision = ApexComparison.ApexComparision(
+        comparison = ac.compare_files(
+            ref_file=ref_file,
+            target_file=target_file,
+            latency_threshold=latency_threshold,
+            jitter_threshold=jitter_threshold,
+            rss_threshold=rss_threshold
+        )
+
+        if comparison['result'] is False:
+            exit_value = 1
+
+        # Log results
+        ac.log_comparison_result(
             logger,
             ref_file,
             target_file,
-            columns_ids,
-            columns_of_interest,
-            latency_threshold=latency_threshold,
-            rss_threshold=rss_threshold,
-            jitter_threshold=jitter_threshold,
-            print_enable=print_results
+            comparison,
         )
-        if comparision.compare() is False:
-            exit_value = 1  # An exit value of 1 signifies failure
+    except AssertionError as e:
+        logger.error(e)
+        exit_value = 1  # An exit value of 1 signifies failure
     except Exception as e:
-        logger.warning('Exception occurred: {}'.format(e))
+        logger.error('Exception occurred: {}'.format(e))
         exit_value = 1  # An exit value of 1 signifies failure
 
     logger.info('Script exit value: {}'.format(exit_value))

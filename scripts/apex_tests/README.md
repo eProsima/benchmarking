@@ -7,7 +7,7 @@ This directory contains a set of scripts used to run and analyze performance res
 * [apex_compare.py](apex_compare.py) is meant to compare result files as output by ApexAI's `perf_test`.
 * [apex_compare_tree.py](apex_compare_tree.py) is meant to compare two sets of similar results produced with [apex_run_experiments.py](apex_run_experiments.py).
 * [apex_plot_results.py](apex_plot_results.py) generates comparison plots from two sets of results produced with [apex_run_experiments.py](apex_run_experiments.py).
-* [ApexComparison.py](ApexComparison.py) contains python code used by several of the other scripts.
+* [apex_comparison.py](apex_comparison.py) contains python code used by several of the other scripts.
 * [apex_parse_results.py](apex_parse_results.py) is a parser to transform ApexAI's performance test results to CSV (columns: `latency_min (ms)`, `latency_mean (ms)`, `latency_variance (ms)`, `ru_maxrss`, `cpu_usage (%)`)
 
 ## Run Apex tests
