@@ -19,7 +19,9 @@ from datetime import datetime
 import itertools
 import logging
 from os import listdir
-from os.path import isdir, isfile
+from os import makedirs
+from os.path import isdir
+from os.path import isfile
 from os.path import join
 import time
 
@@ -78,9 +80,10 @@ def directory_type(directory):
     if directory.endswith('/'):
         directory = directory[:-1]
     if not isdir(directory):
-        raise argparse.ArgumentTypeError(
-            'Cannot find directory "{}"'.format(directory)
-        )
+        makedirs(directory)
+        # raise argparse.ArgumentTypeError(
+        #     'Cannot find directory "{}"'.format(directory)
+        # )
     return directory
 
 
@@ -97,6 +100,60 @@ def file_type(f):
             'Cannot find file "{}"'.format(f)
         )
     return f
+
+
+def check_directories(directories):
+    """
+    Check whether the argument is a list of existing directories.
+
+    :param directories: A list of directory paths.
+    :return: A list of directory paths without ending /.
+    :raise: argparse.ArgumentTypeError if any directory is not a directory.
+    """
+    ret = []
+    for directory in directories:
+        if directory.endswith('/'):
+            directory = directory[:-1]
+        if not isdir(directory):
+            raise argparse.ArgumentTypeError(
+                'Cannot find directory "{}"'.format(directory)
+            )
+        ret.append(directory)
+    return ret
+
+
+def get_experiment_type(filename):
+    """
+    Get the experiment type from the filename.
+
+    The filename is assumed to be in the form of:
+    '<reliability>_<durability>_<history kind>_<topic>_<timestamp>'
+
+    :param filename: The filename to get the type.
+    :return: A string where the timesptamp is taken out from the filename.
+    """
+    file_type = ''
+    filename = filename.split('/')[-1]
+    elements = filename.split('_')
+    for i in range(0, len(elements) - 3):
+        file_type += '{}_'.format(elements[i])
+    file_type = file_type[:-1]
+    return file_type
+
+
+def get_experiment_topic(filename):
+    """
+    Get the experiment topic from the filename.
+
+    The filename is assumed to be in the form of:
+    '<reliability>_<durability>_<history kind>_<topic>_<timestamp>'
+
+    :param filename: The filename to get the topic.
+    :return: The experiment topic as a string.
+    """
+    filename = filename.split('/')[-1]
+    topic = filename.split('_')[-3]
+    return topic
 
 
 def get_logger(file_name=None, print_enable=True):
@@ -192,6 +249,86 @@ def get_subdirectories(rates, num_subs):
             combination[0], combination[1])
         )
     return sub_dirs
+
+
+def get_tree_as_dict(directory):
+    """
+    Get the files contained in directory.
+
+    Directory is expected fo have the following structure:
+    Directory
+    ├── rate_X
+    |   ├── subs_A
+    |   │    ├── file_a
+    |   │    └── file_b
+    |   └── subs_B
+    |        ├── file_c
+    |        └── file_d
+    └── rate_Y
+        ├── subs_A
+        │    ├── file_a
+        │    └── file_b
+        └── subs_B
+             ├── file_c
+             └── file_d
+    :param directory: The directory to scan.
+    :return: A dictionary that contains the files. This looks like:
+    {
+        "rate_X": {
+            "subs_A": [
+                file_a,
+                file_b
+            ],
+            "subs_B": [
+                file_c,
+                file_d
+            ]
+        },
+        "rate_Y": {...}
+    }
+    """
+    tree = {}
+    rates = listdir(directory)
+    for rate in rates:
+        tree[rate] = {}
+        rate_dir = '{}/{}'.format(directory, rate)
+        subs = listdir(rate_dir)
+        for sub in subs:
+            tree[rate][sub] = {}
+            sub_dir = '{}/{}'.format(rate_dir, sub)
+            list_files = listdir(sub_dir)
+            for filename in list_files:
+                file_type = get_experiment_type(filename)
+                if file_type not in tree[rate][sub]:
+                    tree[rate][sub][file_type] = []
+                tree[rate][sub][file_type].append(
+                    '{}/{}'.format(sub_dir, filename)
+                )
+    return tree
+
+
+def sort_files_by_topic_size(list_files):
+    """."""
+    tuple_list = []
+    for filename in list_files:
+        topic = get_experiment_topic(filename)
+        multiplier = topic[-1]
+        size = ''
+        for char in topic:
+            if char.isdigit():
+                size += char
+        size = int(size)
+        if multiplier == 'k':
+            size = size * 1000
+        elif multiplier == 'm':
+            size = size * 1000000
+        tuple_list.append((filename, size))
+
+    sorted_tuples = sorted(tuple_list, key=lambda tup: tup[1])
+    sorted_files = []
+    for sorted_tuple in sorted_tuples:
+        sorted_files.append(sorted_tuple[0])
+    return sorted_files
 
 
 def get_file_names(directory, sub_dirs):

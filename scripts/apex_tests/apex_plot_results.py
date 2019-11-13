@@ -1,195 +1,56 @@
+# Copyright 2019 Proyectos y Sistemas de Mantenimiento SL (eProsima).
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Script to plot Apex.AI performance test results."""
 import argparse
 import csv
-import json
 import statistics
 
 import matplotlib.pyplot as plt
-import matplotlib.ticker as plticker
-import numpy as np
+import pandas
+import seaborn as sns
+import apex_comparison as ac
+
 from os import listdir
 from os import makedirs
-from os.path import abspath
 from os.path import isdir
 from os.path import exists
 
 
-def directory_type(directory):
+def plot_series_set(
+        series_set,
+        title,
+        save_dir,
+        show=False
+    ):
     """
-    Check whether the argument is a directory.
+    Create a latency plot from a series_set.
 
-    :param directory: The directory path.
-    :return: The directory path without ending /.
-    :raise: argparse.ArgumentTypeError if the argument is not a directory.
+    :param series_set: The set of data series. It is expected to be organized as:
+        series_set = {
+            series_1: {
+                column_1: [data],
+                column_2: [data],
+                [...]
+            },
+            series_2: {...}
+        }
+    :param title: Title for the figure.
+    :param save_dir: Directory to save the figure.
+    :param show: A boolean to decide whether to show the figure or simply save it.
+        Defaults: False.
     """
-    if directory.endswith('/'):
-        directory = directory[:-1]
-    if not isdir(directory):
-        raise argparse.ArgumentTypeError(
-            'Cannot find directory "{}"'.format(directory)
-        )
-    return directory
-
-
-def check_directories(directories):
-    """
-    Check whether the argument is a list of existing directories.
-
-    :param directories: A list of directory paths.
-    :return: A list of directory paths without ending /.
-    :raise: argparse.ArgumentTypeError if any directory is not a directory.
-    """
-    ret = []
-    for directory in directories:
-        if directory.endswith('/'):
-            directory = directory[:-1]
-        if not isdir(directory):
-            raise argparse.ArgumentTypeError(
-                'Cannot find directory "{}"'.format(directory)
-            )
-        ret.append(directory)
-    return ret
-
-
-def get_tree_as_dict(directory):
-    """
-    Get the files contained in directory.
-
-    Directory is expected fo have the following structure:
-    Directory
-    ├── rate_X
-    |   ├── subs_A
-    |   │    ├── file_a
-    |   │    └── file_b
-    |   └── subs_B
-    |        ├── file_c
-    |        └── file_d
-    └── rate_Y
-        ├── subs_A
-        │    ├── file_a
-        │    └── file_b
-        └── subs_B
-             ├── file_c
-             └── file_d
-    :param directory: The directory to scan.
-    :return: A dictionary that contains the files. This looks like:
-    {
-        "rate_X": {
-            "subs_A": [
-                file_a,
-                file_b
-            ],
-            "subs_B": [
-                file_c,
-                file_d
-            ]
-        },
-        "rate_Y": {...}
-    }
-    """
-    tree = {}
-    rates = listdir(directory)
-    for rate in rates:
-        tree[rate] = {}
-        rate_dir = '{}/{}'.format(directory, rate)
-        subs = listdir(rate_dir)
-        for sub in subs:
-            tree[rate][sub] = {}
-            sub_dir = '{}/{}'.format(rate_dir, sub)
-            list_files = listdir(sub_dir)
-            for filename in list_files:
-                file_type = get_experiment_type(filename)
-                if file_type not in tree[rate][sub]:
-                    tree[rate][sub][file_type] = []
-                tree[rate][sub][file_type].append(
-                    '{}/{}'.format(sub_dir, filename)
-                )
-    return tree
-
-
-def get_experiment_type(filename):
-    """
-    Get the experiment type from the filename.
-
-    The filename is assumed to be in the form of:
-    '<reliability>_<durability>_<history kind>_<topic>_<timestamp>'
-
-    :param filename: The filename to get the type.
-    :return: A string where the timesptamp is taken out from the filename.
-    """
-    file_type = ''
-    filename = filename.split('/')[-1]
-    elements = filename.split('_')
-    for i in range(0, len(elements) - 3):
-        file_type += '{}_'.format(elements[i])
-    file_type = file_type[:-1]
-    return file_type
-
-
-def get_experiment_topic(filename):
-    """
-    Get the experiment topic from the filename.
-
-    The filename is assumed to be in the form of:
-    '<reliability>_<durability>_<history kind>_<topic>_<timestamp>'
-
-    :param filename: The filename to get the topic.
-    :return: The experiment topic as a string.
-    """
-    filename = filename.split('/')[-1]
-    topic = filename.split('_')[-3]
-    return topic
-
-
-def read_file_results(filename, columns_of_interest):
-    """
-    Extract the results from a test log filename.
-
-    :return: A dictionary containing the results grouped by columns
-    """
-    results = {}
-    for col in columns_of_interest:
-        results[col] = []
-
-    columns_ids = [
-        'T_experiment', 'T_loop', 'received', 'sent', 'lost', 'relative_loss',
-        'data_received', 'latency_min (ms)', 'latency_max (ms)',
-        'latency_mean (ms)', 'latency_variance (ms)', 'pub_loop_res_min (ms)',
-        'pub_loop_res_max (ms)', 'pub_loop_res_mean (ms)',
-        'pub_loop_res_variance (ms)', 'sub_loop_res_min (ms)',
-        'sub_loop_res_max (ms)', 'sub_loop_res_mean (ms)',
-        'sub_loop_res_variance (ms)', 'ru_utime', 'ru_stime', 'ru_maxrss',
-        'ru_ixrss', 'ru_idrss', 'ru_isrss', 'ru_minflt', 'ru_majflt',
-        'ru_nswap', 'ru_inblock', 'ru_oublock', 'ru_msgsnd', 'ru_msgrcv',
-        'ru_nsignals', 'ru_nvcsw', 'ru_nivcsw'
-    ]
-
-    with open(filename, 'r') as f:
-        csv_reader = csv.DictReader(
-            f,
-            delimiter=',',
-            fieldnames=columns_ids
-        )
-        line_count = 0
-        experiment_start = False
-        for row in csv_reader:
-            # Experiment NOT started
-            if not experiment_start:
-                if '--EXPERIMENT-START---' not in row[columns_ids[0]]:
-                    continue
-                else:
-                    experiment_start = True
-            # Experiment started
-            else:
-                if line_count > 0:
-                    for col in columns_of_interest:
-                        results[col].append(float(row[col]))
-                line_count += 1
-    return results
-
-
-def plot_series_set(series_set, title, save_dir, show=False):
-    """."""
     fig = plt.figure()
     max_y = 0
     for series in series_set:
@@ -210,8 +71,7 @@ def plot_series_set(series_set, title, save_dir, show=False):
         local_max = max(series_set[series]['latency_mean (ms)'])
         if local_max > max_y:
             max_y = local_max
-    # step = 0.5
-    # plt.yticks(np.arange(0, max_y + step, step=step))
+
     plt.xlabel('Data type')
     plt.ylabel('Latency [ms]')
     plt.grid()
@@ -221,14 +81,78 @@ def plot_series_set(series_set, title, save_dir, show=False):
         plt.show()
 
     fig_title = '{}/{}.png'.format(save_dir, title)
-    print('Generating figure for file {}'.format(fig_title))
+    print('Generating figure file {}'.format(fig_title))
     plt.savefig(fig_title)
     plt.close(fig)
 
 
-def create_plot_from_series_set(series_set, save_dir, ignore_topics=[], show=False):
+def violin_plot_series_set(
+        data,
+        x,
+        y,
+        hue,
+        title,
+        save_dir,
+        x_label=None,
+        y_label=None,
+        show=False
+    ):
     """
-    Create a plot for a set of data series.
+    Create a violin plot from a data frame.
+
+    :param data: A pandas data frame.
+    :param x: The name of the column to use as X-axis.
+    :param y: The name of the column to use as Y-axis.
+    :param hue: The name of the column to filter data out.
+        Acts as a filter to the data.
+    :param title: Title for the figure.
+    :param save_dir: Directory to save the figure.
+    :param x_label: A label for the X-axis. Defaults: None.
+    :param y_label: A label for the Y-axis. Defaults: None.
+    :param show: A boolean to decide whether to show the figure or simply save it.
+        Defaults: False.
+    """
+    # Create figure object
+    fig = plt.figure()
+
+    # Plot the date frame
+    ax = sns.violinplot(
+        x=x,
+        y=y,
+        hue=hue,
+        data=data,
+        split=True,
+    )
+
+    # Figure set up
+    if x_label is not None:
+        plt.xlabel(x_label)
+    if y_label is not None:
+        plt.ylabel(y_label)
+
+    plt.grid()
+    plt.title(title)
+    plt.legend(loc='upper left')
+
+    # Show figure
+    if show is True:
+        plt.show()
+
+    # Save figure
+    fig_title = '{}/{}.png'.format(save_dir, title)
+    print('Generating figure file {}'.format(fig_title))
+    plt.savefig(fig_title)
+    plt.close(fig)
+
+
+def create_latency_plot_from_series_set(
+        series_set,
+        save_dir,
+        ignore_topics=[],
+        show=False
+    ):
+    """
+    Create a latency plot from a set of data series.
 
     :param series_set: A dictionary containing the set of data series.
         It is expected to be as follows:
@@ -244,6 +168,12 @@ def create_plot_from_series_set(series_set, save_dir, ignore_topics=[], show=Fal
     :param show: True to show the plots, False to just save them. Defaults False.
     :return: True on success, False otherwise
     """
+    # Validate arguments
+    assert isinstance(series_set, dict)
+    assert isinstance(save_dir, str)
+    assert isinstance(ignore_topics, list)
+    assert isinstance(show, bool)
+
     # Create the save dir if it does not exist
     if not exists(save_dir):
         makedirs(save_dir)
@@ -263,21 +193,22 @@ def create_plot_from_series_set(series_set, save_dir, ignore_topics=[], show=Fal
             result_series[series][column] = []
 
         for filename in series_set[series]:
-            topic = get_experiment_topic(filename)
+            topic = ac.get_experiment_topic(filename)
             if topic in ignore_topics:
                 continue
             if title == '':
-                title = filename.split('/')[-3]
+                title = 'latency'
+                title += '_{}'.format(filename.split('/')[-3])
                 title += '_{}'.format(filename.split('/')[-2])
-                title += '_{}'.format(get_experiment_type(filename))
+                title += '_{}'.format(ac.get_experiment_type(filename))
                 if len(ignore_topics) > 0:
                     title += '_ignore'
                     for topic in ignore_topics:
                         title += '_{}'.format(topic)
 
-            raw_results = read_file_results(filename, columns_of_interest)
+            raw_results = ac.read_file_results(filename)
             latency_min = min(raw_results[columns_of_interest[0]])
-            latency_mean = statistics.mean(raw_results[columns_of_interest[1]])
+            latency_mean = min(raw_results[columns_of_interest[1]])
             latency_var = statistics.mean(raw_results[columns_of_interest[2]])
             result_series[series][columns_of_interest[0]].append(latency_min)
             result_series[series][columns_of_interest[1]].append(latency_mean)
@@ -290,28 +221,90 @@ def create_plot_from_series_set(series_set, save_dir, ignore_topics=[], show=Fal
     return True
 
 
-def sort_list_by_topic_size(list_files):
-    """."""
-    tuple_list = []
-    for filename in list_files:
-        topic = get_experiment_topic(filename)
-        multiplier = topic[-1]
-        size = ''
-        for char in topic:
-            if char.isdigit():
-                size += char
-        size = int(size)
-        if multiplier == 'k':
-            size = size * 1000
-        elif multiplier == 'm':
-            size = size * 1000000
-        tuple_list.append((filename, size))
+def create_violin_plot_from_series_set(
+        series_set,
+        save_dir,
+        columns_of_interest,
+        ignore_topics=[],
+        show=False
+    ):
+    """
+    Create a plot for a set of data series.
 
-    sorted_tuples = sorted(tuple_list, key=lambda tup: tup[1])
-    sorted_files = []
-    for sorted_tuple in sorted_tuples:
-        sorted_files.append(sorted_tuple[0])
-    return sorted_files
+    :param series_set: A dictionary containing the set of data series.
+        It is expected to be as follows:
+        {
+            "series 1": [
+                file_1,
+                file_2
+            ],
+            "series 2": [...]
+        }
+    :param save_dir: The directory to save the plots.
+    :param columns_of_interest: A list of columns from which data is extracted.
+    :param ignore_topics: A list of topics to ignore. Defaults [].
+    :param show: True to show the plots, False to just save them. Defaults False.
+    :return: True on success, False otherwise
+    """
+    # Validate arguments
+    assert isinstance(series_set, dict)
+    assert isinstance(save_dir, str)
+    assert isinstance(columns_of_interest, list)
+    assert isinstance(ignore_topics, list)
+    assert isinstance(show, bool)
+
+    # Create the save dir if it does not exist
+    if not exists(save_dir):
+        makedirs(save_dir)
+
+    # Loop over the columns of interest
+    for column_of_interest in columns_of_interest:
+        title = ''
+        data_for_frame = []
+        # Loop over the series
+        for series in series_set:
+            # Loop over the files
+            for filename in series_set[series]:
+                # Manage topic
+                topic = ac.get_experiment_topic(filename)
+                if topic in ignore_topics:
+                    continue
+
+                # Generate title
+                if title == '':
+                    title = column_of_interest.split()[0]
+                    title += '_{}'.format(filename.split('/')[-3])
+                    title += '_{}'.format(filename.split('/')[-2])
+                    title += '_{}'.format(ac.get_experiment_type(filename))
+                    title += '_violin'
+                    if len(ignore_topics) > 0:
+                        title += '_ignore'
+                        for ignored_topic in ignore_topics:
+                            title += '_{}'.format(ignored_topic)
+
+                # Create data entries for the frame in the form of a list of dict
+                raw_results = ac.read_file_results(filename)
+                for measurement in raw_results[column_of_interest]:
+                    data_for_frame.append(
+                        {
+                            'implementation': series,
+                            'topic': topic,
+                            column_of_interest: measurement
+                        }
+                    )
+
+        # Create the violin plot
+        violin_plot_series_set(
+            data=pandas.DataFrame(data=data_for_frame),
+            x='topic',
+            y=column_of_interest,
+            hue='implementation',
+            title=title,
+            save_dir=save_dir,
+            x_label='Data type',
+            y_label=column_of_interest,
+        )
+    return True
 
 
 if __name__ == '__main__':
@@ -321,7 +314,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '-p',
         '--plots_directory',
-        type=directory_type,
+        type=ac.directory_type,
         help='The directory to store the plots',
         required=True
     )
@@ -351,7 +344,7 @@ if __name__ == '__main__':
         help='A list of topics to ignore',
     )
     args = parser.parse_args()
-    results_dirs = check_directories(args.results)
+    results_dirs = ac.check_directories(args.results)
     plots_directory = args.plots_directory
     set_names = args.set_names
     ignore_topics = args.ignore_topics
@@ -366,7 +359,7 @@ if __name__ == '__main__':
         set_name = set_names[i] if i < len(set_names) else results_dir
 
         # Get the files of the set in a dict
-        result_sets['sets'][set_name] = get_tree_as_dict(results_dir)
+        result_sets['sets'][set_name] = ac.get_tree_as_dict(results_dir)
         i += 1
 
         # Add the plot types that are present in the set to results_sets['plot_types']
@@ -390,14 +383,24 @@ if __name__ == '__main__':
                 for result_set in result_sets['sets']:
                     try:
                         if result_sets['sets'][result_set][rate][sub][plot_type]:
-                            series_for_plot[result_set] = sort_list_by_topic_size(
+                            series_for_plot[result_set] = ac.sort_files_by_topic_size(
                                 result_sets['sets'][result_set][rate][sub][plot_type]
                             )
                     except KeyError:
                         continue
 
-                create_plot_from_series_set(
+                create_latency_plot_from_series_set(
                     series_set=series_for_plot,
                     save_dir=plots_directory,
+                    ignore_topics=ignore_topics
+                )
+                create_violin_plot_from_series_set(
+                    series_set=series_for_plot,
+                    save_dir=plots_directory,
+                    columns_of_interest = [
+                        'latency_min (ms)',
+                        'latency_mean (ms)',
+                        'latency_max (ms)',
+                    ],
                     ignore_topics=ignore_topics
                 )
