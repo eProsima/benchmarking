@@ -5,6 +5,6 @@ This directory contains latency results obtained by running the latency test too
 * [Dual host configuration](dualhost): the publisher and the subscriber run in separate machines connected to a local network via ethernet.
 
 To replicate the results exposed here, look at:
-* [Intra-process experiments log](intraprocess/experiments_log.md).
-* [Local host experiments log](localhost/experiments_log.md).
-* [Dual host experiments log](dualhost/experiments_log.md).
+* [Intra-process experiments log](intraprocess/README.md).
+* [Local host experiments log](localhost/README.md).
+* [Dual host experiments log](dualhost/README.md).
