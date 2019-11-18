@@ -1,0 +1,106 @@
+Performing test with 1 subscribers and 10000 samples
+Overhead 0.0186633 ns
+PUBLISHER!
+[35mSubscriber Data Sub Matched [m
+[35mSubscriber Data Pub Matched [m
+[35mPublisher Data Sub Matched: 1.f.a9.6c.f1.29.0.0.2.0.0.0|0.0.1.3[m
+[35mCommand Sub Matched [m
+[35mPublisher Data Pub Matched [m
+[35mCommand Pub Matched [m
+SUBSCRIBER!
+[35;1mDISCOVERY COMPLETE [m
+Printing round-trip times in us, statistics for 10000 samples
+   Bytes, Samples,   stdev,    mean,     min,     50%,     90%,     99%,  99.99%,     max
+--------,--------,--------,--------,--------,--------,--------,--------,--------,--------,
+[35;1mDISCOVERY COMPLETE [m
+Preparing test with data size: 16
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 16
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 16 ENDS
+      16,   10000,   0.077,   0.501,   0.483,   0.493,   0.503,   0.754,   3.208,   5.653
+Preparing test with data size: 32
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 32
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 32 ENDS
+      32,   10000,   0.476,   1.592,   0.838,   1.790,   1.827,   3.369,   8.677,  12.358
+Preparing test with data size: 64
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 64
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 64 ENDS
+      64,   10000,   0.482,   1.611,   0.839,   1.793,   1.833,   3.433,   8.444,  13.464
+Preparing test with data size: 128
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 128
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 128 ENDS
+     128,   10000,   0.496,   1.628,   0.846,   1.801,   1.837,   3.487,   8.975,  14.656
+Preparing test with data size: 256
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 256
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 256 ENDS
+     256,   10000,   0.493,   1.640,   0.849,   1.817,   1.857,   3.430,   7.727,   8.686
+Preparing test with data size: 512
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 512
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 512 ENDS
+     512,   10000,   0.508,   1.648,   0.867,   1.852,   1.891,   3.533,   9.784,  14.517
+Preparing test with data size: 1024
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 1024
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 1024 ENDS
+    1024,   10000,   0.532,   1.695,   0.909,   1.943,   1.985,   3.645,   7.754,  14.761
+Preparing test with data size: 2048
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 2048
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 2048 ENDS
+    2048,   10000,   0.623,   1.784,   0.854,   2.121,   2.191,   3.957,   9.063,  13.338
+Preparing test with data size: 4096
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 4096
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 4096 ENDS
+    4096,   10000,   0.788,   1.968,   0.910,   1.944,   2.689,   4.446,   9.582,  13.385
+Preparing test with data size: 8192
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 8192
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 8192 ENDS
+    8192,   10000,   1.104,   2.485,   1.113,   2.081,   3.608,   5.810,  13.446,  17.136
+Preparing test with data size: 16384
+RCOMMAND: 1
+Publisher has new test ready...
+Testing with data size: 16384
+RCOMMAND: 3
+Publisher has stopped the test
+TEST OF SIZE: 16384 ENDS
+   16384,   10000,   1.779,   3.252,   1.642,   2.394,   5.835,   8.694,  12.585,  15.109
+REMOVING PUBLISHER
+REMOVING SUBSCRIBER
+EVERYTHING STOPPED FINE

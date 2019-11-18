@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dds xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+    <profiles>
+        <!-- PUBLISHER -->
+        <participant profile_name="pub_participant_profile">
+            <rtps>
+                <builtin>
+                    <domainId>231</domainId>
+                </builtin>
+                <name>Participant_pub</name>
+            </rtps>
+        </participant>
+        <publisher profile_name="pub_publisher_profile">
+            <topic>
+                <name>LatencyTest104436_PUB2SUB</name>
+                <dataType>LatencyType</dataType>
+                <kind>NO_KEY</kind>
+            </topic>
+            <qos>
+                <reliability>
+                    <kind>RELIABLE</kind>
+                </reliability>
+                <durability>
+                    <kind>VOLATILE</kind>
+                </durability>
+            </qos>
+        </publisher>
+        <subscriber profile_name="pub_subscriber_profile">
+            <topic>
+                <name>LatencyTest104436_SUB2PUB</name>
+                <dataType>LatencyType</dataType>
+                <kind>NO_KEY</kind>
+            </topic>
+            <qos>
+                <reliability>
+                    <kind>RELIABLE</kind>
+                </reliability>
+                <durability>
+                    <kind>VOLATILE</kind>
+                </durability>
+            </qos>
+        </subscriber>
+
+        <!-- SUBSCRIBER -->
+        <participant profile_name="sub_participant_profile">
+            <rtps>
+                <builtin>
+                    <domainId>231</domainId>
+                </builtin>
+                <name>Participant_sub</name>
+            </rtps>
+        </participant>
+        <publisher profile_name="sub_publisher_profile">
+            <topic>
+                <name>LatencyTest104436_SUB2PUB</name>
+                <dataType>LatencyType</dataType>
+                <kind>NO_KEY</kind>
+            </topic>
+            <qos>
+                <reliability>
+                    <kind>RELIABLE</kind>
+                </reliability>
+                <durability>
+                    <kind>VOLATILE</kind>
+                </durability>
+            </qos>
+        </publisher>
+        <subscriber profile_name="sub_subscriber_profile">
+            <topic>
+                <name>LatencyTest104436_PUB2SUB</name>
+                <dataType>LatencyType</dataType>
+                <kind>NO_KEY</kind>
+            </topic>
+            <qos>
+                <reliability>
+                    <kind>RELIABLE</kind>
+                </reliability>
+                <durability>
+                    <kind>VOLATILE</kind>
+                </durability>
+            </qos>
+        </subscriber>
+    </profiles>
+</dds>
