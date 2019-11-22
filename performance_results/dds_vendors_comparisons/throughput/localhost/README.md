@@ -1,6 +1,9 @@
 # Experiments' log
 With the purpose of replicability, this file details the configuration used to perform each experiment.
 
+## Last comparison (experiment 2019-11-04_15-39-11)
+![](comparisons/2019-11-04_15-39-11.png)
+
 ## 2019-11-04_15-39-11
 
 ### Testing environment
@@ -24,8 +27,8 @@ With the purpose of replicability, this file details the configuration used to p
 * History kind: KEEP_ALL
 * Durability: VOLATILE
 * Message sizes [Bytes]: 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, and 16384
-* Recovery times: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
-* Demands: 100, 200, 500, 1000, 10000, 20000, 30000, 40000, 50000
+* Recovery times [ms]: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+* Demands [messages]: 100, 200, 500, 1000, 10000, 20000, 30000, 40000, 50000
 
 ### Software versions
 * Fast-RTPS commit: 0bcafbde1c6fa3ef7285819980f932df910dba61

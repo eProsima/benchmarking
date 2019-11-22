@@ -1,7 +1,10 @@
 # Experiments' log
 With the purpose of replicability, this file details the configuration used to perform each experiment.
 
-## 2019-11-15_11-57-32
+## Last comparison (experiment 2019-11-15_11-57-32)
+![](comparisons/2019-11-15_11-57-32.png)
+
+## Experiment 2019-11-15_11-57-32
 
 ### Testing environment
 * Location: eProsima’s facilities

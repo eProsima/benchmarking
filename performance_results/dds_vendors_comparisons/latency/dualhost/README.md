@@ -1,6 +1,9 @@
 # Experiments' log
 With the purpose of replicability, this file details the configuration used to perform each experiment.
 
+## Last comparison (experiment 2019-09-23_08-41-33)
+![](comparisons/2019-09-23_08-41-33.png)
+
 ## 2019-09-23_08-41-33
 
 ### Testing environment

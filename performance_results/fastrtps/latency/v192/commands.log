@@ -1,2 +1,2 @@
-taskset --cp 1 ./LatencyTest publisher --samples 10000 --xml latency.xml --export_raw_data measurements.csv 2>&1 | tee -a publisher.out &
-taskset --cp 2  .LatencyTest subscriber --xml latency.xml
+taskset --cp 1 ./LatencyTest publisher --samples 10000 --xml latency.xml --export_raw_data measurements.csv 2>&1 | tee -a publisher.out & \
+taskset --cp 2 ./LatencyTest subscriber --xml latency.xml
