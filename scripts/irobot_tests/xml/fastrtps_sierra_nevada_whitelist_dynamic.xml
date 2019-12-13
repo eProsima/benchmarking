@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dds xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+    <!-- INTRAPROCESS -->
+    <library_settings>
+        <intraprocess_delivery>FULL</intraprocess_delivery>
+    </library_settings>
+
+    <!-- PROFILES -->
+    <profiles>
+        <!-- TRANSPORT -->
+        <transport_descriptors>
+            <transport_descriptor>
+                <transport_id>pdp_only_transport</transport_id>
+                <type>UDPv4</type>
+                <sendBufferSize>7000</sendBufferSize>
+                <receiveBufferSize>21000</receiveBufferSize>
+                <maxMessageSize>7000</maxMessageSize>
+            </transport_descriptor>
+        </transport_descriptors>
+
+        <!-- MONTREAL -->
+        <participant profile_name="montreal">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>mandalay</participant>
+                    <participant>lyon</participant>
+                    <participant>hamburg</participant>
+                    <participant>ponce</participant>
+                    <participant>geneva</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- LYON -->
+        <participant profile_name="lyon">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>montreal</participant>
+                    <participant>hamburg</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- HAMBURG -->
+        <participant profile_name="hamburg">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>montreal</participant>
+                    <participant>lyon</participant>
+                    <participant>osaka</participant>
+                    <participant>geneva</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- OSAKA -->
+        <participant profile_name="osaka">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>hamburg</participant>
+                    <participant>mandalay</participant>
+                    <participant>geneva</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- MANDALAY -->
+        <participant profile_name="mandalay">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>montreal</participant>
+                    <participant>osaka</participant>
+                    <participant>ponce</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- PONCE -->
+        <participant profile_name="ponce">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>montreal</participant>
+                    <participant>mandalay</participant>
+                    <participant>barcelona</participant>
+                    <participant>geneva</participant>
+                    <participant>georgetown</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- GENEVA -->
+        <participant profile_name="geneva">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>montreal</participant>
+                    <participant>hamburg</participant>
+                    <participant>ponce</participant>
+                    <participant>arequipa</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- BARCELONA -->
+        <participant profile_name="barcelona">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>ponce</participant>
+                    <participant>georgetown</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- AREQUIPA -->
+        <participant profile_name="arequipa">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>geneva</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- GEORGETOWN -->
+        <participant profile_name="georgetown">
+            <rtps>
+                <allocation>
+                    <remote_locators>
+                        <max_unicast_locators>0</max_unicast_locators>
+                        <max_multicast_locators>1</max_multicast_locators>
+                    </remote_locators>
+                </allocation>
+
+                <userTransports>
+                    <transport_id>pdp_only_transport</transport_id>
+                </userTransports>
+                <useBuiltinTransports>false</useBuiltinTransports>
+
+                <builtin>
+                    <discovery_config>
+                        <ignoreParticipantFlags>FILTER_DIFFERENT_HOST | FILTER_DIFFERENT_PROCESS</ignoreParticipantFlags>
+                        <leaseAnnouncement>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseAnnouncement>
+                        <leaseDuration>
+                            <sec>DURATION_INFINITY</sec>
+                        </leaseDuration>
+                        <initialAnnouncements>
+                            <count>0</count>
+                        </initialAnnouncements>
+                        <EDP>SIMPLE</EDP>
+                    </discovery_config>
+
+                    <readerHistoryMemoryPolicy>DYNAMIC</readerHistoryMemoryPolicy>
+                    <writerHistoryMemoryPolicy>DYNAMIC</writerHistoryMemoryPolicy>
+                    <use_WriterLivelinessProtocol>false</use_WriterLivelinessProtocol>
+                </builtin>
+                <participantWhitelist>
+                    <participant>ponce</participant>
+                    <participant>barcelona</participant>
+                </participantWhitelist>
+            </rtps>
+        </participant>
+
+        <!-- PUBLISHER -->
+        <publisher profile_name="publisher profile" is_default_profile="true">
+            <qos>
+                <publishMode>
+                    <kind>SYNCHRONOUS</kind>
+                </publishMode>
+            </qos>
+            <historyMemoryPolicy>DYNAMIC_REUSABLE</historyMemoryPolicy>
+        </publisher>
+
+        <!-- SUBSCRIBER -->
+        <subscriber profile_name="subscriber profile" is_default_profile="true">
+            <historyMemoryPolicy>DYNAMIC_REUSABLE</historyMemoryPolicy>
+        </subscriber>
+    </profiles>
+</dds>
