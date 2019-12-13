@@ -3,6 +3,7 @@ This repository contains the performance results and comparisons obtained by ePr
 
 * [DDS Vendors Comparison](#dds-vendors-comparison)
 * [Fast-RTPS Cross-Version Comparison](#fast-rtps-cross-version-comparison)
+* [iRobot Performance Tests](#irobot-performance-tests)
 
 ## DDS Vendors Comparison
 We execute and compare performance test for different DDS implementations ([Fast-RPTS](https://github.com/eProsima/Fast-RTPS), [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds), and [OpenSplice](https://github.com/ADLINK-IST/opensplice)), using the performance testing tools provided by each vendor. We look at performance in terms of:
@@ -31,3 +32,18 @@ To keep track of our own library's progress, we execute cross-version performanc
 
 #### v1.9.2-v1.9.3 Latency Cross-Comparison Same Process
 ![](performance_results/fastrtps/latency/comparisons/v192-v193/v192-v193_intraprocess.png)
+
+## iRobot Performance Tests
+iRobot has created a [benchmark application](https://github.com/irobot-ros/ros2-performance/) to test the performance of ROS 2 in terms of latency, memory consumption, and CPU usages.
+This repository, not only contains tool for performance testing, but also a detail guide on how to cross-compile ROS 2 for a RaspberryPi 3b+ with Raspbian.
+We use that tool to characterize the different vendors performance on a RaspberryPi 3b+.
+[Here](performance_results/irobot_tests/rpi_raspbian/README.md), you can find the experiments log, with a detail description of testing environment and configuration, as well as software versions tested.
+
+### RaspberryPi 3b+ latest results
+###### Fast-RTPS Mont Blanc topology
+
+![fastrtps_mont_blanc](performance_results/irobot_tests/rpi_raspbian/2019-12-11_08-05-42/plots/fastrtps_mont_blanc.png)
+
+###### Fast-RTPS eProsima topology
+
+![fastrtps_mont_blanc](performance_results/irobot_tests/rpi_raspbian/2019-12-11_08-05-42/plots/fastrtps_eprosima.png)
