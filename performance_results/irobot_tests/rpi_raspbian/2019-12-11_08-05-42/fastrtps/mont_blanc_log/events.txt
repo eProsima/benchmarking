@@ -1,0 +1,22 @@
+Time[ms]    Caller                   Code  Description         
+90          SYSTEM                   0     [discovery] EDP completed
+93          nile->hamburg            1     msg 0 late. 2216us > 2000us
+93          ganges->hamburg          1     msg 0 late. 2510us > 2000us
+93          danube->hamburg          1     msg 0 late. 2626us > 2000us
+93          ganges->hamburg          1     msg 1 late. 2072us > 2000us
+94          danube->ponce            1     msg 0 late. 3376us > 2000us
+95          parana->osaka            1     msg 0 late. 3060us > 2000us
+100         congo->geneva            1     msg 0 late. 6000us > 5000us
+100         danube->geneva           1     msg 0 late. 9602us > 2000us
+101         parana->geneva           1     msg 0 late. 8195us > 2000us
+101         columbia->tripoli        1     msg 0 late. 5335us > 5000us
+101         danube->geneva           1     msg 1 late. 3607us > 2000us
+101         parana->geneva           1     msg 1 late. 5512us > 2000us
+101         salween->mandalay        1     msg 0 late. 7803us > 5000us
+101         danube->mandalay         2     msg 0 too late. 10266us > 10000us
+101         yamuna->mandalay         1     msg 0 late. 9325us > 5000us
+101         loire->mandalay          1     msg 0 late. 8161us > 5000us
+102         tagus->geneva            1     msg 0 late. 5890us > 5000us
+103         danube->mandalay         1     msg 1 late. 5789us > 2000us
+103         godavari->mandalay       1     msg 0 late. 8981us > 5000us
+104         chenab->mandalay         1     msg 0 late. 9842us > 5000us

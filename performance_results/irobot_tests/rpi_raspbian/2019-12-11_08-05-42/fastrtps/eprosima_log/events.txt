@@ -1,0 +1,8 @@
+Time[ms]    Caller                   Code  Description         
+0           SYSTEM                   0     [discovery] EDP completed
+4           amazon->eprosima_node    1     msg 0 late. 2638us > 2000us
+4           nile->eprosima_node      1     msg 0 late. 2460us > 2000us
+4           tigris->eprosima_node    1     msg 0 late. 2428us > 2000us
+4           ganges->eprosima_node    1     msg 0 late. 2640us > 2000us
+4           danube->eprosima_node    1     msg 0 late. 2609us > 2000us
+4           parana->eprosima_node    1     msg 0 late. 2566us > 2000us
