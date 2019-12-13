@@ -1,13 +1,12 @@
 # iRobot results
-This directory contains the results of performing iRobot performance tests in different platforms:
-
+This directory contains the results of performing iRobot performance tests in different platforms.
 Each platform's directory contains a log of the experiments performed, as well as the data collected for each of them.
 Inside each platform, the experiments are identified by a time stamp.
 The experiments' configuration and software versions are detail in the experiments log.
 
 ## Platforms
 
-Since iRobot's target is a RaspberryPi, the only supported platform is [RaspberryPi 3b+](rpi_raspbian/README.md).
+Since iRobot's target is a RaspberryPi, the only supported platform is [RaspberryPi 3b+](rpi_raspbian/).
 
 ### rpi_raspbian
 
