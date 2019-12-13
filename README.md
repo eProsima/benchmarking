@@ -36,8 +36,9 @@ To keep track of our own library's progress, we execute cross-version performanc
 ## iRobot Performance Tests
 iRobot has created a [benchmark application](https://github.com/irobot-ros/ros2-performance/) to test the performance of ROS 2 in terms of latency, memory consumption, and CPU usages.
 This repository, not only contains tool for performance testing, but also a detail guide on how to cross-compile ROS 2 for a RaspberryPi 3b+ with Raspbian.
-We use that tool to characterize the different vendors performance on a RaspberryPi 3b+.
+We use that tool to characterize the different vendors' performance on a RaspberryPi 3b+.
 [Here](performance_results/irobot_tests/rpi_raspbian/README.md), you can find the experiments log, with a detail description of testing environment and configuration, as well as software versions tested.
+To ease the configuration of the experiments for different test-cases, a set of [utilities](scripts/irobot_tests) for the iRobot performance tests has been created.
 
 ### RaspberryPi 3b+ latest results
 ###### Fast-RTPS Mont Blanc topology
