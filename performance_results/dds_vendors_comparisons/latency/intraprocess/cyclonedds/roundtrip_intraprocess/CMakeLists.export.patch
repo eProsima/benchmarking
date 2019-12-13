@@ -7,7 +7,7 @@ index 9554013..0edcc41 100644
  add_executable(RoundtripPing ping.c)
  add_executable(RoundtripPong pong.c)
 +add_executable(RoundtripIntraprocess ping_pong.c)
- 
+
  # Both executables need to be linked to the idl data type library and
  # the ddsc API library.
  target_link_libraries(RoundtripPing RoundTrip_lib CycloneDDS::ddsc)
