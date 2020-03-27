@@ -1,9 +1,20 @@
 # Benchmarking
 This repository contains the performance results and comparisons obtained by eProsima using different testing tools. Our aim is to gather performance results for different DDS implementations and versions so their performance can be easily compared.
 
+* [Fast-RTPS Automated Benchmark](#fast-rtps-automated-benchmark)
 * [DDS Vendors Comparison](#dds-vendors-comparison)
 * [Fast-RTPS Cross-Version Comparison](#fast-rtps-cross-version-comparison)
 * [iRobot Performance Tests](#irobot-performance-tests)
+
+## Fast-RTPS Automated Benchmark
+
+[Fast-RTPS Automated Benchmark](fastrtps_automated_benchmark) provides a framework to automate the execution of performance tests for Fast-RTPS that is easy to deploy and integrate with Continuos Integration (CI) pipelines.
+The main goal is to ease the deployment and execution of performance test runs, generating reports that can be shared and used to evaluate Fast-RTPS' performance from various angles.
+
+The following is an example of one of the many plots generated for the case of Latency tests.
+It shows the evolution of Fast-RTPS' latency median performance when sending messages of 512 Bytes between a publisher and a subscriber in the same process when the reliability is set to `BEST_EFFORT`.
+
+![latency_history_payload](fastrtps_automated_benchmark/latency/img/history_plot_payload.png)
 
 ## DDS Vendors Comparison
 We execute and compare performance test for different DDS implementations ([Fast-RPTS](https://github.com/eProsima/Fast-RTPS), [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds), and [OpenSplice](https://github.com/ADLINK-IST/opensplice)), using the performance testing tools provided by each vendor. We look at performance in terms of:

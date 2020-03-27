@@ -1,0 +1,20 @@
+{
+    names:
+    {
+        fastrtps :
+        {
+            cmake-args:
+            [
+                -DEPROSIMA_BUILD=ON,
+                -DEPROSIMA_BUILD_TESTS=ON,
+                -DGTEST_INDIVIDUAL=ON,
+                -DCOMPILE_EXAMPLES=ON,
+                -DSECURITY=ON,
+                -DPERFORMANCE_TESTS=ON,
+                -DVIDEO_TESTS=ON,
+                -DPROFILING_TESTS=ON,
+                -DCMAKE_BUILD_TYPE=Release,
+            ]
+        }
+    }
+}
