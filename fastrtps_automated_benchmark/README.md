@@ -8,6 +8,7 @@ The main goal is to ease the deployment and execution of performance test runs, 
     * [Running Latency Tests](#running-latency-tests)
     * [Running Throughput Tests](#running-throughput-tests)
 * [CI integration](#ci-integration)
+* [Testing environment](#testing-environment)
 * [Directory Structure](#directory-structure)
 
 ## Disclaimer
@@ -103,6 +104,15 @@ Integrating the Fast-RTPS Automated Benchmark Framework is as easy as:
     1. Builds Fast-RTPS using colcon.
     1. Executes the job scripts ([latency_job.bash](latency/latency_job.bash), [throughput_job.bash](throughput/throughput_job.bash)).
     1. Presents the results in the manner of your choosing. At eProsima, we use Jenkins' plugin [Image Gallery](https://plugins.jenkins.io/image-gallery/) (see an example of our [Latency Job](http://jenkins.eprosima.com:8080/view/Performance/job/FastRTPS_latency_performance/80/)).
+
+## Testing environment
+The machine running the experiments is a PowerEdge R330 e34s running Ubuntu 18.04.2 LTS bionic over both Linux 4.15.0-64-generic and RT-Linux 4.14.115-rt59 kernels.
+The specifications of the machines are:
+
+* Architecture: x86_64
+* CPU(s): 8
+* Thread(s) per core: 2
+* Model name: Intel(R) Xeon(R) CPU E3-1230 v6 @ 3.50GHz
 
 ## Directory Structure
 
