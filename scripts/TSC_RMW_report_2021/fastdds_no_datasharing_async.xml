@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+    <publisher profile_name="default_publisher" is_default_profile="true">
+        <historyMemoryPolicy>PREALLOCATED_WITH_REALLOC</historyMemoryPolicy>
+        <qos>
+            <publishMode>
+                <kind>ASYNCHRONOUS</kind>
+            </publishMode>
+            <data_sharing>
+                <kind>OFF</kind>
+            </data_sharing>
+        </qos>
+    </publisher>
+
+    <subscriber profile_name="default_subscriber" is_default_profile="true">
+        <historyMemoryPolicy>PREALLOCATED_WITH_REALLOC</historyMemoryPolicy>
+    </subscriber>
+</profiles>
